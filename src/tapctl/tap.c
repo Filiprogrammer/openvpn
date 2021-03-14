@@ -815,7 +815,7 @@ tap_create_adapter(
      * assumes a driver is already installed in the driver store.
      */
 #ifdef HAVE_DIINSTALLDEVICE
-    if (!DiInstallDevice(hwndParent, hDevInfoList, &devinfo_data, NULL, 0, pbRebootRequired))
+    if (!DiInstallDevice(hwndParent, hDevInfoList, &devinfo_data, NULL, DIIDFLAG_INSTALLNULLDRIVER, pbRebootRequired))
 #else
     /* mingw does not resolve DiInstallDevice, so load it at run time. */
     typedef BOOL (WINAPI *DiInstallDeviceFn) (HWND, HDEVINFO, SP_DEVINFO_DATA *,
@@ -830,7 +830,7 @@ tap_create_adapter(
         goto cleanup_hDevInfoList;
     }
 
-    if (!installfn(hwndParent, hDevInfoList, &devinfo_data, NULL, 0, pbRebootRequired))
+    if (!installfn(hwndParent, hDevInfoList, &devinfo_data, NULL, DIIDFLAG_INSTALLNULLDRIVER, pbRebootRequired))
 #endif
     {
         dwResult = GetLastError();
